@@ -16,6 +16,7 @@ $users = $result -> fetchAll();
 // Mostrar los resultados
 ?>
 <?php
+echo $users[0][1];
 if ($users[0][1] == null) {
     header("Location: https://codd.ing.puc.cl/~grupo89/login_index.php");
 } else {

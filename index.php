@@ -75,18 +75,7 @@
 
 
   </header>
-  <div class="body_3">  
-  <form action="Consultas/imp_usarios.php" method="post">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-4">
-          <button type="submit" class="btn btn-sm btn-purple">Importar Usuarios</button>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-<?php
+  <?php
 if(isset($_SESSION["user_id"]) ) {
     if ($_SESSION["user_type"] == "Cliente") {
             echo '<div class="body_3">';
@@ -106,6 +95,19 @@ if(isset($_SESSION["user_id"]) ) {
           
         }}
         ?>
+        
+  <div class="body_3">  
+  <form action="Consultas/imp_usarios.php" method="post">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-sm btn-purple">Importar Usuarios</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
 
 
 
