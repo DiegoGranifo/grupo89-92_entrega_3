@@ -76,24 +76,75 @@
 
   </header>
   <?php
-if(isset($_SESSION["user_id"]) ) {
-    if ($_SESSION["user_type"] == "Cliente") {
-            echo '<div class="body_3">';
-            echo '<h3 align="center"> Bienvenido a bodega 89 revisa tu perfil y tu historial de compra</h3>';
-            echo '<a class="nav-link" href="Consultas/profile.php">Perfil</a>';
-            echo '</div>';
+if (isset($_SESSION["user_id"])) {
+  if ($_SESSION["user_type"] == "Cliente") {
+      echo '<div class="body_3">';
+      echo '<h3 align="center">Bienvenido a bodega 89, revisa tu perfil y tu historial de compra</h3>';
+      echo '<a class="nav-link" href="Consultas/profile.php">Perfil</a>';
+      echo '</div>';
 
-          #Agregar hacer compra de usuario aqui
+      # Agregar hacer compra de usuario aquí
 
-        } else {
-          echo '<div class="body_3">';
-            echo '<h3 align="center">Buenos dias Administrador</h3>';
-            ##Agregar features de Admon Aqui
-            echo '</div>';
+  } else {
+      echo '<div class="body_3">';
+      echo '<h3 align="center">Buenos días Administrador</h3>';
+      ## Agregar features de Administrador aquí
+      echo '</div>';
+      require("Config/conexion.php");
+      $result = $db->prepare("SELECT DISTINCT region FROM tiendas;");
+      $result->execute();
+      $dataCollected = $result->fetchAll();
+
+      echo '<div class="body_3">';
+      echo '<h3 align="center">Elige una región</h3>';
+
+      if (isset($_POST['region_1'])) {
+        ## SI ya dio la region
+          $selectedRegion = $_POST['region_1'];
+          echo '<h4 align="center">Región seleccionada: ' . $selectedRegion . '</h4>';
+          $query = "SELECT id_tienda FROM tiendas WHERE tiendas.region = '$selectedRegion';";
+          $result2 = $db->prepare($query);
+          $result2->execute();
+          $dataCollected2 = $result2->fetchAll();
+
+          echo '<h3 align="center">Elige una tienda</h3>';
+          echo '<form align="center" action="Consultas/consulta_tienda.php" method="post">';
+          echo '<div align="center">';
+          echo '  <select name="tienda_id" style="width: 200px;">';
+          ### Nombre variable de id es tienda_id Seguir con el id de la tienda en consulta_tienda.php
+          foreach ($dataCollected2 as $d) {
+              echo "<option value='$d[0]'>$d[0]</option>";
+          }
+          echo '  </select>';
+          echo '  <br><br>';
+          echo '  <input type="submit" name="submit" value="Buscar">';
+          echo '</div>';
+          echo '</form>';
+
+      } else {
+        ## Form pars obtener la region, refresca la pagina al apretar el boton y se ejecuta el if de arriba
+          echo '<form align="center" action="" method="post">';
+          echo '<div align="center">';
+          echo '  <select name="region_1" style="width: 200px;">';
+          foreach ($dataCollected as $d) {
+              echo "<option value='$d[0]'>$d[0]</option>";
+          }
+          echo '  </select>';
+          echo '  <br><br>';
+          echo '  <input type="submit" name="submit" value="Buscar">';
+          echo '</div>';
+          echo '</form>';
+      }
+      echo '</div>';
+      echo '<br>';
+      echo '<br>';
+      echo '<br>';
+  }
+}
+
 
            
-          
-        }}
+
         ?>
         
   <div class="body_3">  
